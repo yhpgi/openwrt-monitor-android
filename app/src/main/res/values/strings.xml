@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">OpenWrt Monitor</string>
+    <string name="device_temperature">Device Temperature</string>
+    <string name="cpu_usage">CPU Usage</string>
+    <string name="ram_usage">RAM Usage</string>
+    <string name="no_data_found">No Data Found</string>
+    <string name="loading">Loading…</string>
+    <string name="connected">Connected</string>
+    <string name="internet_status">Internet Status :</string>
+    <string name="navbar_settings">Settings</string>
+    <string name="navbar_luci">LuCI</string>
+    <string name="settings_default_ip">Default IP</string>
+    <string name="settings_default_ip_description">Default IP for UBUS API and Luci address</string>
+    <string name="navbar_home">Home</string>
+    <string name="settings_luci_path">Luci Path</string>
+    <string name="settings_luci_path_description">Setting for customized luci path, default is cgi-bin/luci</string>
+    <string name="settings_app_theme">App Theme</string>
+    <string name="settings_app_theme_description">Set the app theme</string>
+    <string name="setting_theme_follow_system">Follow system</string>
+    <string name="setting_theme_light">Light</string>
+    <string name="setting_theme_dark">Dark</string>
+    <string name="settings_title_application">Application</string>
+    <string name="settings_title_general">General</string>
+    <string name="navbar_clash">Clash</string>
+    <string name="settings_openclash_port">OpenClash port</string>
+    <string name="settings_openclash_port_description">Port and path for OpenClash</string>
+    <string name="title_openclash_yacd">OpenClash YACD</string>
+    <string name="settings_title_other">Other</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+</resources>

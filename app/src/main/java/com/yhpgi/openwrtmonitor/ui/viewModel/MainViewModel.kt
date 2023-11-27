@@ -12,8 +12,6 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.yhpgi.openwrtmonitor.domain.helper.MainUtils
 import com.yhpgi.openwrtmonitor.domain.helper.repository.DataStoreRepository
-import com.yhpgi.openwrtmonitor.domain.helper.webview.LuciWebViewHelper
-import com.yhpgi.openwrtmonitor.domain.helper.webview.OpenClashWebViewHelper
 import com.yhpgi.openwrtmonitor.domain.model.ApiResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,28 +29,22 @@ class MainViewModel(application: Application) : AndroidViewModel(application = a
     val savedClashString = repository.getClashString.asLiveData()
 
     fun saveTheme(newThemeString: String) = viewModelScope.launch(Dispatchers.IO) {
-            repository.saveThemeString(newThemeString)
+        repository.saveThemeString(newThemeString)
     }
 
     private fun saveIPString(newIpAddress: String) = viewModelScope.launch(Dispatchers.IO) {
         repository.saveIPString(newIpAddress)
     }
 
-    private fun saveLuciPathString(newLuciPathString: String) = viewModelScope.launch(Dispatchers.IO) {
-        repository.saveLuciString(newLuciPathString)
-    }
-    private fun saveOpenClashString(newClashString: String) = viewModelScope.launch(Dispatchers.IO) {
-        repository.saveClashString(newClashString)
-    }
+    private fun saveLuciPathString(newLuciPathString: String) =
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.saveLuciString(newLuciPathString)
+        }
 
-    var luciWebViewHelper: LuciWebViewHelper? = null
-    var openClashWebViewHelper: OpenClashWebViewHelper? = null
-
-    var luciUrl by mutableStateOf("http://$savedIpString/$savedLuciPathString")
-    var luciTitle by mutableStateOf("LuCI")
-
-    var openClashUrl by mutableStateOf("http://$savedIpString$savedClashString")
-    var openClashTitle by mutableStateOf("OpenClash")
+    private fun saveOpenClashString(newClashString: String) =
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.saveClashString(newClashString)
+        }
 
     var openEditTextDialog by mutableStateOf(false)
     var openRadioDialog by mutableStateOf(false)
@@ -66,43 +58,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application = a
     var model: String by mutableStateOf(MainUtils.STRING_LOADING)
     var firmwareVersion: String by mutableStateOf(MainUtils.STRING_LOADING)
     var kernelVersion: String by mutableStateOf(MainUtils.STRING_LOADING)
-
-    fun getLuciUrl() {
-        viewModelScope.launch {
-            luciUrl = luciWebViewHelper!!.getUrl().toString()
-        }
-
-    }
-
-    fun getLuciWebTitle() {
-        viewModelScope.launch {
-            luciTitle = luciWebViewHelper!!.getTitle().toString()
-        }
-    }
-
-    fun getOpenClashUrl() {
-        viewModelScope.launch {
-            openClashUrl = openClashWebViewHelper!!.getUrl().toString()
-        }
-    }
-
-    fun getOpenClashTitle() {
-        viewModelScope.launch {
-            openClashTitle = openClashWebViewHelper!!.getTitle().toString()
-        }
-    }
-
-    fun refreshLuciView() {
-        viewModelScope.launch {
-            luciWebViewHelper!!.refreshWebView()
-        }
-    }
-
-    fun refreshOpenClashView() {
-        viewModelScope.launch {
-            openClashWebViewHelper!!.refreshWebView()
-        }
-    }
 
     fun getSystemInformation() {
         CoroutineScope(Dispatchers.IO).launch {
@@ -162,8 +117,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application = a
         CoroutineScope(Dispatchers.IO).launch {
             openEditTextDialog = false
             if (isSave) {
-                luciWebViewHelper = null
-                openClashWebViewHelper = null
                 when (keyDialog) {
                     0 -> saveIPString(newKeyValue)
                     1 -> saveLuciPathString(newKeyValue)

@@ -1,6 +1,5 @@
 package com.yhpgi.openwrtmonitor.ui.screens
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.padding
@@ -23,8 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -113,21 +110,27 @@ fun MainScreen(
                 enterTransition = { fadeIn() },
                 exitTransition = { fadeOut() }
             ) {
-                HomeScreen()
+                HomeScreen(
+                    mainViewModel.hostname,
+                    mainViewModel.model,
+                    mainViewModel.firmwareVersion,
+                    mainViewModel.kernelVersion,
+                    mainViewModel::getSystemInformation
+                )
             }
             composable(
                 route = Screens.LuciScreen.name,
                 enterTransition = { fadeIn() },
                 exitTransition = { fadeOut() }
             ) {
-                LuciScreen(mainViewModel, mainActivity)
+                LuciScreen()
             }
             composable(
                 route = Screens.OpenClashScreen.name,
                 enterTransition = { fadeIn() },
                 exitTransition = { fadeOut() }
             ) {
-                OpenClashScreen(mainViewModel, mainActivity)
+                OpenClashScreen()
             }
             composable(
                 route = Screens.SettingsScreen.name,

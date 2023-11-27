@@ -32,7 +32,13 @@ import com.yhpgi.openwrtmonitor.ui.viewModel.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(mainViewModel: MainViewModel = viewModel()) {
+fun HomeScreen(
+    hostname: String,
+    model: String,
+    firmwareVersion: String,
+    kernelVersion: String,
+    getSystemInfo: () -> Unit
+) {
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
@@ -60,12 +66,12 @@ fun HomeScreen(mainViewModel: MainViewModel = viewModel()) {
             LayoutMainDataUsage()
             LayoutMainInternetStatus()
             LayoutMainSystemInformation(
-                mainViewModel.hostname,
-                mainViewModel.model,
-                mainViewModel.firmwareVersion,
-                mainViewModel.kernelVersion
+                hostname,
+                model,
+                firmwareVersion,
+                kernelVersion
             )
-            mainViewModel.getSystemInformation()
+            getSystemInfo()
             LayoutMainDeviceMonitor()
 
         }
@@ -75,6 +81,11 @@ fun HomeScreen(mainViewModel: MainViewModel = viewModel()) {
 @Preview
 @Composable
 fun HomePreview() {
-    HomeScreen()
+    HomeScreen(
+        "hostname",
+        "model",
+        "firmwareVersion",
+        "kernelVersion"
+    ) { }
 }
 

@@ -15,7 +15,7 @@ fun SettingItemsApplication(mainViewModel: MainViewModel) {
             icon = Icons.TwoTone.Face,
             title = stringResource(R.string.settings_app_theme),
             description = stringResource(R.string.settings_app_theme_description),
-            savedValue = mainViewModel.savedThemeString,
+            savedValue = mainViewModel.savedThemeString.value,
             onClick = {
                 mainViewModel.openRadioDialog(
                     title = R.string.settings_app_theme,

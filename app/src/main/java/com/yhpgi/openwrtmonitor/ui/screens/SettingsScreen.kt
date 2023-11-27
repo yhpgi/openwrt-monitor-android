@@ -15,8 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.yhpgi.openwrtmonitor.R
+import com.yhpgi.openwrtmonitor.ui.activity.MainActivity
 import com.yhpgi.openwrtmonitor.ui.component.settings.DialogSettingEditText
 import com.yhpgi.openwrtmonitor.ui.component.settings.DialogSettingRadioButton
 import com.yhpgi.openwrtmonitor.ui.component.settings.SettingItemsApplication
@@ -27,7 +27,8 @@ import com.yhpgi.openwrtmonitor.ui.viewModel.MainViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
-    mainViewModel: MainViewModel = viewModel()
+    mainViewModel: MainViewModel,
+    mainActivity: MainActivity
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
@@ -65,7 +66,8 @@ fun SettingsScreen(
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
             SettingItemsGeneral(
-                mainViewModel = mainViewModel
+                mainViewModel = mainViewModel,
+                mainActivity = mainActivity
             )
             Text(
                 text = stringResource(R.string.settings_title_other),
@@ -80,17 +82,19 @@ fun SettingsScreen(
         when {
             mainViewModel.openRadioDialog -> {
 
-                DialogSettingRadioButton(
-                    title = mainViewModel.title,
-                    description = mainViewModel.description,
-                    openDialog = mainViewModel.openRadioDialog,
-                    selectedTheme = mainViewModel.savedThemeString,
-                    onDismiss = mainViewModel::closeRadioDialog,
-                    onSave = {
-                        mainViewModel.closeRadioDialog()
-                        mainViewModel.saveTheme(it)
-                    }
-                )
+                mainViewModel.savedThemeString.value?.let { selectedTheme ->
+                    DialogSettingRadioButton(
+                        title = mainViewModel.title,
+                        description = mainViewModel.description,
+                        openDialog = mainViewModel.openRadioDialog,
+                        selectedTheme = selectedTheme,
+                        onDismiss = mainViewModel::closeRadioDialog,
+                        onSave = { newTheme ->
+                            mainViewModel.closeRadioDialog()
+                            mainViewModel.saveTheme(newTheme)
+                        }
+                    )
+                }
             }
 
             mainViewModel.openEditTextDialog -> {

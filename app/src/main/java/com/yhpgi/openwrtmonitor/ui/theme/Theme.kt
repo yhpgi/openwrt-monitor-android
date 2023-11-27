@@ -56,7 +56,6 @@ fun OpenWrtMonitorTheme(
         else -> LightColorScheme
     }
     val view = LocalView.current
-    val navigationBackground = NavigationBarDefaults.containerColor
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window

@@ -1,15 +1,17 @@
 package com.yhpgi.openwrtmonitor.ui.viewModel
 
+import android.app.Application
 import androidx.annotation.StringRes
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.yhpgi.openwrtmonitor.domain.helper.MainUtils
-import com.yhpgi.openwrtmonitor.domain.helper.datastore.MmkvUtils
+import com.yhpgi.openwrtmonitor.domain.helper.repository.DataStoreRepository
 import com.yhpgi.openwrtmonitor.domain.helper.webview.LuciWebViewHelper
 import com.yhpgi.openwrtmonitor.domain.helper.webview.OpenClashWebViewHelper
 import com.yhpgi.openwrtmonitor.domain.model.ApiResponse
@@ -19,30 +21,28 @@ import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
-class MainViewModel : ViewModel() {
+class MainViewModel(application: Application) : AndroidViewModel(application = application) {
 
-    var savedThemeString by mutableStateOf(MmkvUtils().getThemeString)
-    fun saveTheme(themeString: String) {
-        savedThemeString = themeString
-        MmkvUtils().saveThemeString(themeString)
+    private val repository = DataStoreRepository(application)
+
+    val savedThemeString = repository.getThemeString.asLiveData()
+    val savedIpString = repository.getIPString.asLiveData()
+    val savedLuciPathString = repository.getLuciPathString.asLiveData()
+    val savedClashString = repository.getClashString.asLiveData()
+
+    fun saveTheme(newThemeString: String) = viewModelScope.launch(Dispatchers.IO) {
+            repository.saveThemeString(newThemeString)
     }
 
-    var savedIpString by mutableStateOf(MmkvUtils().getIPString)
-    fun saveIPString(ip: String) {
-        savedIpString = ip
-        MmkvUtils().saveIPString(ip)
+    private fun saveIPString(newIpAddress: String) = viewModelScope.launch(Dispatchers.IO) {
+        repository.saveIPString(newIpAddress)
     }
 
-    var savedLuciPathString by mutableStateOf(MmkvUtils().getLuciPathString)
-    fun saveLuciPathString(luciPathString: String) {
-        savedLuciPathString = luciPathString
-        MmkvUtils().saveLuciString(luciPathString)
+    private fun saveLuciPathString(newLuciPathString: String) = viewModelScope.launch(Dispatchers.IO) {
+        repository.saveLuciString(newLuciPathString)
     }
-
-    var savedClashString by mutableStateOf(MmkvUtils().getClashString)
-    fun saveOpenClashString(newClashString: String) {
-        savedClashString = newClashString
-        MmkvUtils().saveClashString(newClashString)
+    private fun saveOpenClashString(newClashString: String) = viewModelScope.launch(Dispatchers.IO) {
+        repository.saveClashString(newClashString)
     }
 
     var luciWebViewHelper: LuciWebViewHelper? = null
@@ -66,7 +66,6 @@ class MainViewModel : ViewModel() {
     var model: String by mutableStateOf(MainUtils.STRING_LOADING)
     var firmwareVersion: String by mutableStateOf(MainUtils.STRING_LOADING)
     var kernelVersion: String by mutableStateOf(MainUtils.STRING_LOADING)
-
 
     fun getLuciUrl() {
         viewModelScope.launch {

@@ -24,7 +24,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.yhpgi.openwrtmonitor.R
-import com.yhpgi.openwrtmonitor.ui.activity.SettingsActivity
 import com.yhpgi.openwrtmonitor.ui.component.main.LayoutMainDataUsage
 import com.yhpgi.openwrtmonitor.ui.component.main.LayoutMainDeviceMonitor
 import com.yhpgi.openwrtmonitor.ui.component.main.LayoutMainInternetStatus
@@ -35,7 +34,6 @@ import com.yhpgi.openwrtmonitor.ui.viewModel.MainViewModel
 @Composable
 fun HomeScreen(mainViewModel: MainViewModel = viewModel()) {
 
-    val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     Scaffold(
@@ -46,19 +44,6 @@ fun HomeScreen(mainViewModel: MainViewModel = viewModel()) {
                     Text(
                         text = stringResource(id = R.string.title_dashboard)
                     )
-                },
-                actions = {
-                    IconButton(onClick = {
-                        val intent = Intent(context, SettingsActivity::class.java)
-                        context.startActivity(intent)
-                    }) {
-                        Icon(
-                            imageVector = Icons.Default.Settings,
-                            contentDescription = stringResource(
-                                id = R.string.navbar_settings
-                            )
-                        )
-                    }
                 },
                 scrollBehavior = scrollBehavior
             )

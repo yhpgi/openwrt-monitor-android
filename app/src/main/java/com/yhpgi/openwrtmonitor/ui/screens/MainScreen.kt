@@ -7,9 +7,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.List
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -30,13 +32,17 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.yhpgi.openwrtmonitor.R
+import com.yhpgi.openwrtmonitor.ui.activity.MainActivity
 import com.yhpgi.openwrtmonitor.ui.navigation.BottomBarItem
 import com.yhpgi.openwrtmonitor.ui.navigation.Screens
 import com.yhpgi.openwrtmonitor.ui.viewModel.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
+fun MainScreen(
+    mainViewModel: MainViewModel,
+    mainActivity: MainActivity
+) {
     val navController = rememberNavController()
     val listOfBottomBarItem = listOf(
         BottomBarItem(
@@ -56,6 +62,12 @@ fun MainScreen() {
             unselectedIcon = Icons.Outlined.ShoppingCart,
             selectedIcon = Icons.Filled.ShoppingCart,
             route = Screens.OpenClashScreen.name
+        ),
+        BottomBarItem(
+            label = stringResource(id = R.string.navbar_settings),
+            unselectedIcon = Icons.Outlined.Settings,
+            selectedIcon = Icons.Filled.Settings,
+            route = Screens.SettingsScreen.name
         )
     )
 
@@ -108,22 +120,23 @@ fun MainScreen() {
                 enterTransition = { fadeIn() },
                 exitTransition = { fadeOut() }
             ) {
-                LuciScreen()
+                LuciScreen(mainViewModel, mainActivity)
             }
             composable(
                 route = Screens.OpenClashScreen.name,
                 enterTransition = { fadeIn() },
                 exitTransition = { fadeOut() }
             ) {
-                OpenClashScreen()
+                OpenClashScreen(mainViewModel, mainActivity)
+            }
+            composable(
+                route = Screens.SettingsScreen.name,
+                enterTransition = { fadeIn() },
+                exitTransition = { fadeOut() }
+            ) {
+                SettingsScreen(mainViewModel, mainActivity)
 
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun MainScreenPreview() {
-    MainScreen()
 }

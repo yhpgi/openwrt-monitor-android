@@ -26,12 +26,16 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.yhpgi.openwrtmonitor.domain.helper.webview.OpenClashWebViewHelper
+import com.yhpgi.openwrtmonitor.ui.activity.MainActivity
 import com.yhpgi.openwrtmonitor.ui.component.luci.TopProgressBar
 import com.yhpgi.openwrtmonitor.ui.viewModel.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OpenClashScreen(mainViewModel: MainViewModel = viewModel()) {
+fun OpenClashScreen(
+    mainViewModel: MainViewModel = viewModel(),
+    mainActivity: MainActivity
+) {
 
     var openClashUrl by rememberSaveable {
         mutableStateOf(mainViewModel.openClashUrl)
@@ -43,8 +47,14 @@ fun OpenClashScreen(mainViewModel: MainViewModel = viewModel()) {
     if (mainViewModel.openClashWebViewHelper == null) {
         mainViewModel.openClashWebViewHelper =
             OpenClashWebViewHelper(LocalContext.current).apply {
-                val savedIpAddress = mainViewModel.savedIpString
-                val savedClashPath = mainViewModel.savedClashString
+                var savedIpAddress = mainViewModel.savedIpString.value
+                mainViewModel.savedIpString.observe(mainActivity) {
+                    savedIpAddress = it
+                }
+                var savedClashPath = mainViewModel.savedClashString.value
+                mainViewModel.savedClashString.observe(mainActivity) {
+                    savedClashPath = it
+                }
                 loadUrl("http://$savedIpAddress$savedClashPath")
             }
     }

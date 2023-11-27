@@ -26,12 +26,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.yhpgi.openwrtmonitor.domain.helper.webview.LuciWebViewHelper
+import com.yhpgi.openwrtmonitor.ui.activity.MainActivity
 import com.yhpgi.openwrtmonitor.ui.component.luci.TopProgressBar
 import com.yhpgi.openwrtmonitor.ui.viewModel.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LuciScreen(mainViewModel: MainViewModel = viewModel()) {
+fun LuciScreen(mainViewModel: MainViewModel = viewModel(), mainActivity: MainActivity) {
 
     var luciTitle by rememberSaveable {
         mutableStateOf(mainViewModel.luciTitle)
@@ -43,8 +44,14 @@ fun LuciScreen(mainViewModel: MainViewModel = viewModel()) {
     if (mainViewModel.luciWebViewHelper == null) {
         mainViewModel.luciWebViewHelper =
             LuciWebViewHelper(LocalContext.current).apply {
-                val savedIpAddress = mainViewModel.savedIpString
-                val savedLuciPath = mainViewModel.savedLuciPathString
+                var savedIpAddress = mainViewModel.savedIpString.value
+                mainViewModel.savedIpString.observe(mainActivity) {
+                    savedIpAddress = it
+                }
+                var savedLuciPath = mainViewModel.savedLuciPathString.value
+                mainViewModel.savedLuciPathString.observe(mainActivity) {
+                    savedLuciPath = it
+                }
                 loadUrl("http://$savedIpAddress/$savedLuciPath")
             }
     }
@@ -104,8 +111,3 @@ fun LuciScreen(mainViewModel: MainViewModel = viewModel()) {
     }
 }
 
-@Preview
-@Composable
-fun LuciScreenPreview() {
-    LuciScreen()
-}

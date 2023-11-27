@@ -1,7 +1,6 @@
 package com.yhpgi.openwrtmonitor.domain.application
 
 import android.app.Application
-import com.tencent.mmkv.MMKV
 
 class OpenwrtMonitorApp : Application() {
 
@@ -14,6 +13,5 @@ class OpenwrtMonitorApp : Application() {
     override fun onCreate() {
         super.onCreate()
         appInitializer = this
-        MMKV.initialize(this)
     }
 }

@@ -19,8 +19,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.yhpgi.openwrtmonitor.R
 import com.yhpgi.openwrtmonitor.ui.theme.OpenWrtMonitorTheme
 
 @Composable
@@ -28,7 +30,7 @@ fun SettingItem(
     icon: ImageVector,
     title: String,
     description: String,
-    savedValue: String,
+    savedValue: String?,
     onClick: () -> Unit
 ) {
     Surface(
@@ -57,7 +59,7 @@ fun SettingItem(
                     style = MaterialTheme.typography.bodySmall
                 )
                 Text(
-                    text = savedValue,
+                    text = if (savedValue.isNullOrBlank()) stringResource(id = R.string.error) else savedValue,
                     style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier.padding(top = 8.dp)
                 )

@@ -13,8 +13,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.yhpgi.openwrtmonitor.R
 
 @Composable
 fun LayoutMainSystemInformation(
@@ -46,7 +48,7 @@ fun LayoutMainSystemInformation(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = "Hostname :",
+                        text = stringResource(R.string.hostname),
                         style = MaterialTheme.typography.bodyMedium
                     )
                     Text(
@@ -61,7 +63,7 @@ fun LayoutMainSystemInformation(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = "Device :",
+                        text = stringResource(R.string.device),
                         style = MaterialTheme.typography.bodyMedium
                     )
                     Text(
@@ -76,7 +78,7 @@ fun LayoutMainSystemInformation(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = "Firmware Version :",
+                        text = stringResource(R.string.firmware_version),
                         style = MaterialTheme.typography.bodyMedium
                     )
                     Text(
@@ -91,7 +93,7 @@ fun LayoutMainSystemInformation(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = "Kernel Version :",
+                        text = stringResource(R.string.kernel_version),
                         style = MaterialTheme.typography.bodyMedium
                     )
                     Text(

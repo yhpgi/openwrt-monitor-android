@@ -7,7 +7,6 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStore
-import com.yhpgi.openwrtmonitor.domain.helper.MainUtils
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -20,7 +19,7 @@ class DataStoreRepository(context: Context) {
     val getThemeString: Flow<String> = dataStore.data
         .catch { exception ->
             if (exception is IOException) {
-                Log.d(MainUtils.KEY_APP_SETTINGS, exception.message.toString())
+                Log.d(MainRepository.KEY_APP_SETTINGS, exception.message.toString())
                 emit(emptyPreferences())
             } else {
                 throw exception
@@ -28,20 +27,20 @@ class DataStoreRepository(context: Context) {
         }
         .map { preferences ->
             val theme =
-                preferences[MainUtils.KEY_APP_THEME_STRING] ?: MainUtils.STRING_DEFAULT_THEME
+                preferences[MainRepository.KEY_APP_THEME_STRING] ?: MainRepository.STRING_DEFAULT_THEME
             theme
         }
 
     suspend fun saveThemeString(setSelectedThemeString: String) {
         dataStore.edit { preferences ->
-            preferences[MainUtils.KEY_APP_THEME_STRING] = setSelectedThemeString
+            preferences[MainRepository.KEY_APP_THEME_STRING] = setSelectedThemeString
         }
     }
 
     val getIPString: Flow<String> = dataStore.data
         .catch { exception ->
             if (exception is IOException) {
-                Log.d(MainUtils.KEY_APP_SETTINGS, exception.message.toString())
+                Log.d(MainRepository.KEY_APP_SETTINGS, exception.message.toString())
                 emit(emptyPreferences())
             } else {
                 throw exception
@@ -49,20 +48,20 @@ class DataStoreRepository(context: Context) {
         }
         .map { preferences ->
             val storedIpAddress =
-                preferences[MainUtils.KEY_APP_IP_STRING] ?: MainUtils.DEFAULT_IP
+                preferences[MainRepository.KEY_APP_IP_STRING] ?: MainRepository.DEFAULT_IP
             storedIpAddress
         }
 
     suspend fun saveIPString(newIP: String) {
         dataStore.edit { preferences ->
-            preferences[MainUtils.KEY_APP_IP_STRING] = newIP
+            preferences[MainRepository.KEY_APP_IP_STRING] = newIP
         }
     }
 
     val getLuciPathString: Flow<String> = dataStore.data
         .catch { exception ->
             if (exception is IOException) {
-                Log.d(MainUtils.KEY_APP_SETTINGS, exception.message.toString())
+                Log.d(MainRepository.KEY_APP_SETTINGS, exception.message.toString())
                 emit(emptyPreferences())
             } else {
                 throw exception
@@ -70,20 +69,20 @@ class DataStoreRepository(context: Context) {
         }
         .map { preferences ->
             val storedLuciPath =
-                preferences[MainUtils.KEY_APP_LUCI_STRING] ?: MainUtils.DEFAULT_LUCI_PATH
+                preferences[MainRepository.KEY_APP_LUCI_STRING] ?: MainRepository.DEFAULT_LUCI_PATH
             storedLuciPath
         }
 
     suspend fun saveLuciString(newLuciPath: String) {
         dataStore.edit { preferences ->
-            preferences[MainUtils.KEY_APP_LUCI_STRING] = newLuciPath
+            preferences[MainRepository.KEY_APP_LUCI_STRING] = newLuciPath
         }
     }
 
     val getClashString: Flow<String> = dataStore.data
         .catch { exception ->
             if (exception is IOException) {
-                Log.d(MainUtils.KEY_APP_SETTINGS, exception.message.toString())
+                Log.d(MainRepository.KEY_APP_SETTINGS, exception.message.toString())
                 emit(emptyPreferences())
             } else {
                 throw exception
@@ -91,15 +90,15 @@ class DataStoreRepository(context: Context) {
         }
         .map { preferences ->
             val storedOpenClashPath =
-                preferences[MainUtils.KEY_APP_CLASH_STRING] ?: MainUtils.DEFAULT_CLASH_PATH
+                preferences[MainRepository.KEY_APP_CLASH_STRING] ?: MainRepository.DEFAULT_CLASH_PATH
             storedOpenClashPath
         }
 
     suspend fun saveClashString(newOpenClashPath: String) {
         dataStore.edit { preferences ->
-            preferences[MainUtils.KEY_APP_CLASH_STRING] = newOpenClashPath
+            preferences[MainRepository.KEY_APP_CLASH_STRING] = newOpenClashPath
         }
     }
 }
 
-val Context.dataStore: DataStore<Preferences> by preferencesDataStore(MainUtils.KEY_APP_SETTINGS)
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(MainRepository.KEY_APP_SETTINGS)

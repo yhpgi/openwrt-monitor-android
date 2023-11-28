@@ -10,7 +10,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import com.yhpgi.openwrtmonitor.R
-import com.yhpgi.openwrtmonitor.domain.helper.MainUtils
+import com.yhpgi.openwrtmonitor.domain.helper.repository.MainRepository
 import com.yhpgi.openwrtmonitor.ui.activity.MainActivity
 import com.yhpgi.openwrtmonitor.ui.viewModel.MainViewModel
 
@@ -18,7 +18,7 @@ import com.yhpgi.openwrtmonitor.ui.viewModel.MainViewModel
 fun SettingItemsGeneral(mainViewModel: MainViewModel, mainActivity: MainActivity) {
     Column {
         var defaultIp by rememberSaveable {
-            mutableStateOf(MainUtils.DEFAULT_IP)
+            mutableStateOf(MainRepository.DEFAULT_IP)
         }
         mainViewModel.savedIpString.observe(mainActivity) {
             defaultIp = it
@@ -40,7 +40,7 @@ fun SettingItemsGeneral(mainViewModel: MainViewModel, mainActivity: MainActivity
         )
 
         var defaultLuciPath by rememberSaveable {
-            mutableStateOf(MainUtils.DEFAULT_LUCI_PATH)
+            mutableStateOf(MainRepository.DEFAULT_LUCI_PATH)
         }
         mainViewModel.savedLuciPathString.observe(mainActivity) {
             defaultLuciPath = it
@@ -62,7 +62,7 @@ fun SettingItemsGeneral(mainViewModel: MainViewModel, mainActivity: MainActivity
         )
 
         var defaultClashPath by rememberSaveable {
-            mutableStateOf(MainUtils.DEFAULT_CLASH_PATH)
+            mutableStateOf(MainRepository.DEFAULT_CLASH_PATH)
         }
         mainViewModel.savedClashString.observe(mainActivity) {
             defaultClashPath = it

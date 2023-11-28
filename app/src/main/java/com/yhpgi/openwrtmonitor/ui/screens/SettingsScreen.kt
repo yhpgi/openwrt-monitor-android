@@ -1,9 +1,14 @@
 package com.yhpgi.openwrtmonitor.ui.screens
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumTopAppBar
@@ -52,31 +57,41 @@ fun SettingsScreen(
                     rememberScrollState()
                 )
         ) {
-            Text(
-                text = stringResource(R.string.settings_title_application),
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-            SettingItemsApplication(
-                mainViewModel = mainViewModel
-            )
-            Text(
-                text = stringResource(R.string.settings_title_general),
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-            SettingItemsGeneral(
-                mainViewModel = mainViewModel,
-                mainActivity = mainActivity
-            )
-            Text(
-                text = stringResource(R.string.settings_title_other),
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-            SettingItemsOther(
-                mainViewModel = mainViewModel
-            )
+            ElevatedCard(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.settings_title_application),
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+                )
+                SettingItemsApplication(
+                    mainViewModel = mainViewModel
+                )
+            }
+            ElevatedCard(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.settings_title_general),
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+                )
+                SettingItemsGeneral(
+                    mainViewModel = mainViewModel,
+                    mainActivity = mainActivity
+                )
+            }
+            ElevatedCard(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.settings_title_other),
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+                )
+                SettingItemsOther()
+            }
         }
 
         when {

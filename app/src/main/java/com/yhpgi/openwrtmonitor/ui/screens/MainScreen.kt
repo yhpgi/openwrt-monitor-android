@@ -12,7 +12,6 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.List
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.ShoppingCart
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -20,6 +19,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -29,12 +31,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.yhpgi.openwrtmonitor.R
+import com.yhpgi.openwrtmonitor.domain.helper.repository.MainRepository
 import com.yhpgi.openwrtmonitor.ui.activity.MainActivity
 import com.yhpgi.openwrtmonitor.ui.navigation.BottomBarItem
 import com.yhpgi.openwrtmonitor.ui.navigation.Screens
 import com.yhpgi.openwrtmonitor.ui.viewModel.MainViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     mainViewModel: MainViewModel,
@@ -99,6 +101,27 @@ fun MainScreen(
             }
         },
     ) { paddingValues ->
+        var ipAddress by rememberSaveable {
+            mutableStateOf(MainRepository.DEFAULT_IP)
+        }
+        mainViewModel.savedIpString.observe(mainActivity) {
+            ipAddress = it
+        }
+        var luciPath by rememberSaveable {
+            mutableStateOf(MainRepository.DEFAULT_LUCI_PATH)
+        }
+        mainViewModel.savedLuciPathString.observe(mainActivity) {
+            luciPath = it
+        }
+        var openClashPath by rememberSaveable {
+            mutableStateOf(MainRepository.DEFAULT_CLASH_PATH)
+        }
+        mainViewModel.savedClashString.observe(mainActivity) {
+            openClashPath = it
+        }
+
+        val luciConfigChanged = mainViewModel.luciConfigChanged
+        val clashConfigChanged = mainViewModel.clashConfigChanged
 
         NavHost(
             navController = navController,
@@ -123,14 +146,24 @@ fun MainScreen(
                 enterTransition = { fadeIn() },
                 exitTransition = { fadeOut() }
             ) {
-                LuciScreen()
+                LuciScreen(
+                    luciUrl = "http://$ipAddress/$luciPath",
+                    internetConfigurationIsChanged = luciConfigChanged,
+                    onBackPressed = { navController.popBackStack() },
+                    onPageLoadedAfterValueChanged = mainViewModel::setLuciFalse
+                )
             }
             composable(
                 route = Screens.OpenClashScreen.name,
                 enterTransition = { fadeIn() },
                 exitTransition = { fadeOut() }
             ) {
-                OpenClashScreen()
+                OpenClashScreen(
+                    openClashUrl = "http://$ipAddress$openClashPath",
+                    internetConfigurationIsChanged = clashConfigChanged,
+                    onBackPressed = { navController.popBackStack() },
+                    onPageLoadedAfterValueChanged = mainViewModel::setClashFalse
+                )
             }
             composable(
                 route = Screens.SettingsScreen.name,

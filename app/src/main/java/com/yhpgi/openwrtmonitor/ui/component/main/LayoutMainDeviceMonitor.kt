@@ -23,7 +23,7 @@ fun LayoutMainDeviceMonitor() {
             .padding(horizontal = 16.dp)
     ) {
         MainCircularProgressBar(
-            percentage = 0.35f,
+            percentage = 0.25f,
             title = stringResource(R.string.device_temperature),
             textModifier = "°"
         )
@@ -33,7 +33,7 @@ fun LayoutMainDeviceMonitor() {
             textModifier = "%"
         )
         MainCircularProgressBar(
-            percentage = 0.5f,
+            percentage = 0.2f,
             title = stringResource(R.string.ram_usage),
             textModifier = "%"
         )

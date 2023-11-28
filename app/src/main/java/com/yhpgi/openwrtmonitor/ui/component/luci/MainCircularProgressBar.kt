@@ -1,5 +1,6 @@
 package com.yhpgi.openwrtmonitor.ui.component.luci
 
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
@@ -37,7 +38,7 @@ fun MainCircularProgressBar(
     color: Color = MaterialTheme.colorScheme.primary,
     strokeWidth: Dp = 8.dp,
     animationDuration: Int = 1000,
-    animationDelay: Int = 1000,
+    animationDelay: Int = 0,
     textModifier: String
 ) {
     var animated by remember {
@@ -71,8 +72,8 @@ fun MainCircularProgressBar(
                 Canvas(modifier = Modifier.size(radius * 2f)) {
                     drawArc(
                         color = color,
-                        startAngle = -90f,
-                        sweepAngle = 360 * currentPercentage.value,
+                        startAngle = 130f,
+                        sweepAngle = 280 * currentPercentage.value,
                         useCenter = false,
                         style = Stroke(
                             width = strokeWidth.toPx(),

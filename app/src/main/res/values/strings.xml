@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">OpenWrt Monitor</string>
+    <string name="app_name"><![CDATA[OpenWrt Monitor]]></string>
     <string name="device_temperature">Device Temperature</string>
     <string name="cpu_usage">CPU Usage</string>
     <string name="ram_usage">RAM Usage</string>
@@ -26,7 +26,10 @@
     <string name="settings_openclash_port_description">Port and path for OpenClash</string>
     <string name="title_openclash_yacd">OpenClash YACD</string>
     <string name="settings_title_other">Other</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_activity_settings">SettingsActivity</string>
-    <string name="error">Error</string>
+    <string name="title_dashboard"><![CDATA[Dashboard]]></string>
+    <string name="error"><![CDATA[Error]]></string>
+    <string name="hostname">Hostname :</string>
+    <string name="device">Device :</string>
+    <string name="firmware_version">Firmware Version :</string>
+    <string name="kernel_version">Kernel Version :</string>
 </resources>

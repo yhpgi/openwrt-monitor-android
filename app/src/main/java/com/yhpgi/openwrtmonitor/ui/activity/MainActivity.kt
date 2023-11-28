@@ -10,13 +10,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.yhpgi.openwrtmonitor.R
-import com.yhpgi.openwrtmonitor.domain.helper.MainUtils
+import com.yhpgi.openwrtmonitor.domain.helper.repository.MainRepository
 import com.yhpgi.openwrtmonitor.ui.screens.MainScreen
 import com.yhpgi.openwrtmonitor.ui.theme.OpenWrtMonitorTheme
 import com.yhpgi.openwrtmonitor.ui.viewModel.MainViewModel
@@ -30,7 +29,7 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
         setContent {
             var currentTheme by rememberSaveable {
-                mutableStateOf(MainUtils.STRING_DEFAULT_THEME)
+                mutableStateOf(MainRepository.STRING_DEFAULT_THEME)
             }
 
             mainViewModel.savedThemeString.observe(this) { theme ->
